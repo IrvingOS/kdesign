@@ -8,5 +8,6 @@ import compDefaultProps from '../config-provider/compDefaultProps' // kdesign提
 export const getCompProps = (compName: keyof typeof compDefaultProps, userDefaultProps?: any, compProps?: any): any => {
   const defaultProps = compDefaultProps[compName]
   const userProps = (userDefaultProps && userDefaultProps[compName]) || {}
+  // 优先级：组件参数 > 用户参数 > 默认参数
   return Object.assign({}, defaultProps, userProps, compProps || {})
 }

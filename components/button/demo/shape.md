@@ -9,6 +9,7 @@ order: 1
 import React from 'react'
 import ReactDOM from 'react-dom'
 import Button from '@kdcloudjs/kdesign'
+import { Icon } from '@kdcloudjs/kdesign'
 
 function Demo() {
   const demoButtonStyle = { margin: '0px 8px 8px 0' }
@@ -17,14 +18,18 @@ function Demo() {
       <Button type="primary" style={demoButtonStyle}>
         默认
       </Button>
-       <Button type="primary" shape="none" style={demoButtonStyle}>
+      <Button type="primary" shape="none" style={demoButtonStyle}>
         直角
       </Button>
       <Button type="primary" shape="round" style={demoButtonStyle}>
         椭圆
       </Button>
-      <Button type="primary" shape="circle" style={demoButtonStyle}>
-        圆
+      <Button type="primary" shape="circle" style={demoButtonStyle} loading icon={<Icon type="shutdown" />}></Button>
+      <Button type="primary" shape="circle" style={demoButtonStyle} loading>
+        <Icon type="shutdown" />
+      </Button>
+      <Button type="primary" shape="circle" style={demoButtonStyle} loading>
+        图标
       </Button>
     </div>
   )

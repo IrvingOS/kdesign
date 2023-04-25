@@ -1,14 +1,14 @@
-import React, { useState, useContext, useEffect, useCallback } from 'react'
 import classNames from 'classnames'
-import ConfigContext from '../config-provider/ConfigContext'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { getCompProps } from '../_utils'
-import { tuple } from '../_utils/type'
-import AnchorContext from './context'
 import devWarning from '../_utils/devwarning'
-import { Icon } from '../index'
-import usePopper from '../_utils/usePopper'
-import { toArray } from '../_utils/react-children'
 import { useResizeObserver } from '../_utils/hooks'
+import { toArray } from '../_utils/react-children'
+import { tuple } from '../_utils/type'
+import usePopper from '../_utils/usePopper'
+import ConfigContext from '../config-provider/ConfigContext'
+import { Icon } from '../index'
+import AnchorContext from './context'
 
 const sharpMatcherRegx = /#(\S+)$/
 
@@ -133,8 +133,11 @@ export interface AnchorProps {
   onChange?: (currentActiveLink: string) => void
 }
 const InternalAnchor = (props: AnchorProps, ref: unknown): React.FunctionComponentElement<AnchorProps> => {
+  // 取上下文中的配置
   const { getPrefixCls, prefixCls, compDefaultProps: userDefaultProps } = useContext(ConfigContext)
+  // 将上下文中的配置、组件配置、默认配置进行合并
   const anchorProps = getCompProps('Anchor', userDefaultProps, props)
+  // 取出要用的配置
   const {
     prefixCls: customPrefixcls,
     className,
@@ -155,19 +158,31 @@ const InternalAnchor = (props: AnchorProps, ref: unknown): React.FunctionCompone
     onVisibleChange,
   } = anchorProps
 
+  // 获取类名前缀
   const anchorPrefixCls = getPrefixCls!(prefixCls, 'anchor', customPrefixcls) // 锚点样式前缀
 
+  // 校验类型
   devWarning(AnchorTypes.indexOf(type) === -1, 'anchor', `cannot found anchor type '${type}'`)
 
+  // 当前所在锚点的 link（#header）
   const [activeLink, setActiveLink] = useState<string | null>(null)
+  // 是否固定在头部
   const [fixedTop, setFixedTop] = useState(false)
+  // 所有锚点的 link
   const [links, setLinks] = useState<string[]>([])
+  // 组件的当前位置
   const [anchorPosition, setAnchorPosition] = useState<anchorPositionProps>({})
+  // 锚点列表宽度
   const [listWidth, setListWidth] = useState(0)
+  // 菜单包装器宽度
   const [menuWrapWidth, setMenuWrapWidth] = useState(0)
+  // 锚点列表位置
   const [listPostion, setListPosition] = useState(0)
+  // 位置历史记录
   const [positionHistory, setPositionHistory] = useState<number[]>([0])
+  // 描点列表是否显示
   const [optionShow, setOptionShow] = useState<boolean>(!!props.visible)
+  // 是否锁定位置
   const [isLocked, setIsLocked] = useState(false)
 
   const isAdcanced = type === 'advanced'
